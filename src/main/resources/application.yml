@@ -1,0 +1,71 @@
+#默认配置
+server:
+  port: 8080
+#切换配置
+spring:
+  profiles:
+    active: test
+---
+#开发环境
+server:
+  port: 8081
+spring:
+  config:
+    activate:
+      on-profile: dev
+---
+#测试环境
+server:
+  port: 8082
+  address: 0.0.0.0
+ #Session超时时间设置，单位是秒，默认是30分钟
+  servlet:
+    session:
+      timeout: 3600s
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springboot_security?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull
+    hikari: # springboot 2.0 整合了hikari ,据说这是目前性能最好的java数据库连接池
+      username: root
+      password: root
+      minimum-idle: 5  # 最小空闲连接数量
+      idle-timeout: 180000 # 空闲连接存活最大时间，默认600000（10分钟）
+      maximum-pool-size: 10 # 连接池最大连接数,默认是10
+      auto-commit: true # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      pool-name: MyHikariCP # 连接池名称
+      max-lifetime: 1800000 # 此属性控制池中连接的最长生命周期,值0表示无限生命周期,默认1800000即30分钟
+      connection-timeout: 30000 # 数据库连接超时时间,默认30秒,即30000
+      connection-test-query: SELECT 1 #连接池每分配一条连接前执行的查询语句（如：SELECT 1），以验证该连接是否是有效的。如果你的驱动程序支持 JDBC4,HikariCP 强烈建议我们不要设置此属性
+  jpa:
+    hibernate:
+      ddl-auto: update  # 第一次建表create  后面用update,要不然每次重启都会新建表
+    show-sql: true #打印执行的sql语句
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #设置数据库方言  记住必须要使用 MySQL5InnoDBDialect 指定数据库类型对应InnoDB  ;如果使用MySQLDialect 则对应的是MyISAM
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 20000
+  cache:
+    redis:
+      time-to-live: 10000 #redis缓存10秒过期
+#    集群环境打开下面注释，单机不需要打开
+#    cluster:
+#      集群信息
+#      nodes: xxx.xxx.xxx.xxx:xxxx,xxx.xxx.xxx.xxx:xxxx,xxx.xxx.xxx.xxx:xxxx
+#      #默认值是5 一般当此值设置过大时，容易报：Too many Cluster redirections
+#      maxRedirects: 3
+    pool:
+      max-active: 8
+      min-idle: 0
+      max-idle: 8
+      max-wait: -1
+    password:
+---
+#生产环境
+server:
+  port: 8083
+spring:
+  config:
+    activate:
+      on-profile: prod
