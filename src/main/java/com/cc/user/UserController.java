@@ -2,6 +2,8 @@ package com.cc.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,15 +15,24 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping("/test")
-	public String test() {
-		return "ok";
+	public Object test(HttpServletRequest request) {
+    	Object login = request.getSession().getAttribute("users")+",欢迎回来!";
+    	return login;
+	}
+	
+    //用户登录(注册session)
+	@RequestMapping("/login")
+	public String userlogin(String name,HttpServletRequest request, HttpServletResponse response) {
+		//用户名存入该用户的session中
+        request.getSession().setAttribute("users",name);
+    	System.out.println("登录成功");
+        return "已存储session";
 	}
 	
 	@RequestMapping("/findByUsername")
-	public List<User> findByUsername(String username) throws Exception {
+	public List<User> findByUsername(String username,HttpServletRequest request) throws Exception {
 		//定义页面所需权限
-		userService.setRole("12");
-
+		userService.setRole("12",request);
 		return userService.findByUsername(username);
 	}
 }
