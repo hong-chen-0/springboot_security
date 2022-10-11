@@ -42,5 +42,11 @@ public class UserController {
         System.out.println("参数:" + params);
         return "hello "+ params;
     }
+    
+    @SuperRole(desc = "测试接口2")
+    @RequestMapping(value = "/super2")
+    public void super2(String params) {
+        System.out.println("参数2:" + params);
+	}
 
 }

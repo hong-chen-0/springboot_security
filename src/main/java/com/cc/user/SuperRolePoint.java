@@ -1,5 +1,10 @@
 package com.cc.user;
 
+import java.util.Arrays;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,28 +13,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-
-/**
- * @description: 定义AOP切面
- * @author: CC
- * @create: 2022-10-11
- **/
-
 @Aspect
 @Component
-public class LogAspect {
-
+public class SuperRolePoint {
     // 定义切点
-    @Pointcut("@annotation(com.cc.user.EagleEye)")
-    public void eagleEye() {
+    @Pointcut("@annotation(com.cc.user.SuperRole)")
+    public void superRole() {
 
     }
 
     // 利用环绕增强来实现我们的功能
-    @Around("eagleEye()&&@annotation(eagleEye)")
-    public Object surroundInform(ProceedingJoinPoint proceedingJoinPoint,EagleEye eagleEye) throws NoSuchMethodException, SecurityException {
+    @Around("superRole()&&@annotation(superRole)")
+    public Object surroundInform(ProceedingJoinPoint proceedingJoinPoint,SuperRole superRole) throws NoSuchMethodException, SecurityException {
 
         System.out.println("环绕通知开始...");
         
@@ -42,8 +37,13 @@ public class LogAspect {
         System.out.println("类路径 : " + proceedingJoinPoint.getSignature().getDeclaringTypeName());
         System.out.println("参数 : " + Arrays.toString(proceedingJoinPoint.getArgs()));
         
-        System.out.println("注解参数 : " + eagleEye.desc());
+        System.out.println("注解参数 : " + superRole.desc());
         
+		//SESSION中的用户名
+        HttpSession session =request.getSession(); 
+		String username = session.getAttribute("users").toString();
+		System.out.println("检测得到用户名："+username);
+		
         try {
             // 真实业务代码，这里是伪代码
             Object o =  proceedingJoinPoint.proceed();
