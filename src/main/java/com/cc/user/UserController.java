@@ -35,4 +35,12 @@ public class UserController {
 		userService.setRole("12",request);
 		return userService.findByUsername(username);
 	}
+	
+    @EagleEye(desc = "测试接口")
+    @RequestMapping(value = "/sayHello")
+    public String test(String params)throws Exception{
+        System.out.println("参数:" + params);
+        return "hello "+ params;
+    }
+
 }
