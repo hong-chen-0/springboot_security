@@ -9,6 +9,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.util.Arrays;
 
 /**
@@ -38,12 +40,17 @@ public class LogAspect {
 
         System.out.println("请求路径 : " + request.getRequestURL());
         System.out.println("请求方式 : " + request.getMethod());
-        System.out.println("方法名 : " + proceedingJoinPoint.getSignature().getName());
-        System.out.println("类路径 : " + proceedingJoinPoint.getSignature().getDeclaringTypeName());
-        System.out.println("参数 : " + Arrays.toString(proceedingJoinPoint.getArgs()));
+        System.out.println("接口方法名 : " + proceedingJoinPoint.getSignature().getName());
+        System.out.println("CLASS路径 : " + proceedingJoinPoint.getSignature().getDeclaringTypeName());
+        System.out.println("URL参数 : " + Arrays.toString(proceedingJoinPoint.getArgs()));
         
         System.out.println("注解参数 : " + eagleEye.desc());
         
+		//SESSION中的用户名
+        HttpSession session =request.getSession(); 
+		String username = session.getAttribute("users").toString();
+		System.out.println("检测得到用户名："+username);
+		
         try {
             // 真实业务代码，这里是伪代码
             Object o =  proceedingJoinPoint.proceed();

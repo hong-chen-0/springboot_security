@@ -43,10 +43,11 @@ public class UserController {
         return "hello "+ params;
     }
     
-    @SuperRole(desc = "测试接口2")
-    @RequestMapping(value = "/super2")
-    public void super2(String params) {
-        System.out.println("参数2:" + params);
+    @SuperRole(setRole = "1")
+    @RequestMapping(value = "/superRole")
+    public List<User> superRole(String username) {
+        System.out.println("参数2:" + username);
+        return userService.findByUsername(username);
 	}
 
 }
