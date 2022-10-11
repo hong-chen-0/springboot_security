@@ -48,7 +48,7 @@ public class UserController {
     @SuperRole(setRole = "1")
     @RequestMapping(value = "/superRole")
     public List<User> superRole(String username) {
-        System.out.println("参数2:" + username);
+        System.out.println("接口导入参数:" + username);
         return userService.findByUsername(username);
 	}
 
