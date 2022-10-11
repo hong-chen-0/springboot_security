@@ -36,6 +36,7 @@ public class UserController {
 		return userService.findByUsername(username);
 	}
 	
+	//测试自定义注释模板
     @EagleEye(desc = "测试接口")
     @RequestMapping(value = "/sayHello")
     public String test(String params)throws Exception{
@@ -43,6 +44,7 @@ public class UserController {
         return "hello "+ params;
     }
     
+    //测试自定义注释：检测访问者MYSQL权限列表是否拥有该接口需求的角色（注释里定义接口需要的角色）
     @SuperRole(setRole = "1")
     @RequestMapping(value = "/superRole")
     public List<User> superRole(String username) {
