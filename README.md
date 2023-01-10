@@ -1,4 +1,8 @@
-部署JAVA项目到AWS-EC2
+⭐利用AOP切片自制角色权限注解/@SuperRole(setRole = "role")
+
+配置所需角色权限即可实现接口权限验证
+
+⭐部署JAVA项目到AWS-EC2
 
 https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ec2-lamp-amazon-linux-2.html
 
